@@ -1,0 +1,88 @@
+---
+title: "Tic Tac Toe project structure: HTML, JS, and CSS files"
+description: "Overview of the three source files — index.html, game.js, and styles.css — what each contains, and how they reference each other."
+---
+
+The Tic Tac Toe project is self-contained with just three source files: an HTML file for structure, a JavaScript file for game logic, and a CSS file for styling. There are no external dependencies, build tools, or frameworks required to run the game.
+
+## File tree
+
+```
+Tic-Tac-Toe-Game/
+├── index.html      # Main HTML structure
+├── game.js         # Game logic and functionality
+├── styles.css      # Styling and layout
+├── README.md       # Project documentation
+└── LICENSE         # MIT License
+```
+
+## index.html
+
+The HTML file defines the entire page structure. It includes a title heading, a current-player display, the 3×3 game board, and a restart button.
+
+The board is built from nine `.celda` divs nested inside a `.celda-container` div. The current player's marker is shown in a `<span class="jugador-actual">` element, which `game.js` updates on each turn.
+
+```html
+<div class="celda-container">
+    <div class="celda"></div>
+    <div class="celda"></div>
+    <div class="celda"></div>
+    <div class="celda"></div>
+    <div class="celda"></div>
+    <div class="celda"></div>
+    <div class="celda"></div>
+    <div class="celda"></div>
+    <div class="celda"></div>
+</div>
+```
+
+Key elements in the file:
+
+| Element | Class / selector | Purpose |
+|---|---|---|
+| `<span>` | `.jugador-actual` | Displays the active player marker (X or O) |
+| `<div>` (×9) | `.celda` | Individual board cells |
+| `<div>` | `.celda-container` | Grid wrapper for the 9 cells |
+| `<button>` | `.btn-restart` | Resets the board and game state |
+
+## game.js
+
+The JavaScript file manages all game state and logic. It runs in the browser with no modules or imports — it accesses the DOM directly using `document.querySelector` and `document.querySelectorAll`.
+
+**State variables:**
+
+| Variable | Type | Initial value | Purpose |
+|---|---|---|---|
+| `tablero` | `Array` (3×3) | `[["","",""],...]` | Tracks marker placements |
+| `juegoActivo` | `boolean` | `true` | Whether the game is still in progress |
+| `jugadorActual` | `string` | `'X'` | The current player's marker |
+| `jugadorActualUi` | DOM element | `.jugador-actual` span | Reference to update the UI |
+
+**Functions:**
+
+| Function | Description |
+|---|---|
+| `game(fila, columna)` | Main entry point; validates the move, updates state, checks win/draw |
+| `revisarColumna()` | Checks all three columns for a winning match |
+| `revisarFila()` | Checks all three rows for a winning match |
+| `revisarDiagonalDerecha()` | Checks the right-to-left diagonal |
+| `revisarDiagonalIzquierda()` | Checks the left-to-right diagonal |
+| `empate()` | Checks whether the board is full with no winner |
+
+Event listeners are set up at the bottom of the file — one on each `.celda` div for cell clicks, and one on `.btn-restart` for restarting.
+
+## styles.css
+
+The CSS file handles all visual layout and styling with no external frameworks. The board uses CSS Grid to arrange the nine cells in a 3×3 layout.
+
+Key rules:
+
+- **Board grid:** `grid-template-columns: 80px 80px 80px` on `.celda-container`
+- **Cell size:** Each `.celda` is `80px` wide and `80px` tall
+- **Marker font size:** `font-size: 60px` on `.celda`
+- **Restart button:** `background-color: aqua`, `border-radius: 10px`, centered with `display: block; margin: 20px auto`
+- **Font stack:** System font stack used globally — no web fonts loaded
+
+<Note>
+All three files must be kept in the same directory. The HTML file uses relative paths (`./styles.css` and `./game.js`) to load the stylesheet and script. Moving any file to a different folder without updating those paths will break the page.
+</Note>

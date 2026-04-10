@@ -1,97 +1,45 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Tic Tac Toe: a classic two-player game in vanilla JS"
+description: "Tic Tac Toe is a zero-dependency two-player browser game built with plain HTML, CSS, and JavaScript. No install or build step needed — open and play."
 ---
 
-## Setting up
+Welcome to the Tic Tac Toe Game documentation. This is a classic two-player game that runs entirely in your browser with no frameworks, no build tools, and no dependencies. Just open `index.html` and start playing.
 
-Get your documentation site up and running in minutes.
-
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Introduction" icon="circle-info" href="/introduction">
+    Learn what this project is, what features it includes, and what technologies it uses.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get the game running locally in under a minute — no setup required.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="How to Play" icon="gamepad" href="/gameplay">
+    Step-by-step gameplay guide, from placing your first marker to winning the game.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Game Logic" icon="code" href="/game-logic">
+    Explore the JavaScript functions that power win detection, draw detection, and state management.
   </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## Get up and running
 
-Everything you need to create world-class documentation.
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/samuelitoo01/Tic-Tac-Toe-Game.git
+    cd Tic-Tac-Toe-Game
+    ```
+  </Step>
+  <Step title="Open the game">
+    Double-click `index.html` to open it in your browser, or serve it with a local server:
+    ```bash
+    python -m http.server 8000
+    ```
+  </Step>
+  <Step title="Start playing">
+    Player X goes first. Click any empty cell to place your marker. Players alternate turns until someone wins or the board is full.
+  </Step>
+</Steps>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<Tip>
+  No internet connection required. Once you have the files, the game works fully offline.
+</Tip>

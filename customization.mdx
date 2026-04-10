@@ -1,0 +1,170 @@
+---
+title: "Customizing Tic Tac Toe: colors, size, and features"
+description: "How to change button and cell colors, resize the board, adjust font size, and extend the game with score tracking by editing source files directly."
+---
+
+Because the project is plain HTML, CSS, and JavaScript with no build tools or frameworks, every visual and behavioral change is a direct edit to one of the three source files. There is nothing to compile or install — open the file, make the change, and refresh the browser.
+
+## Changing colors
+
+### Restart button color
+
+The restart button's background is set on the `.btn-restart` rule in `styles.css`:
+
+```css
+.btn-restart{
+    background-color: aqua;
+    width: 200px;
+    height: 50px;
+    font-size: 30px;
+    border-radius: 10px;
+    display: block;
+    margin: 20px auto;
+    cursor: pointer;
+}
+```
+
+Replace `aqua` with any valid CSS color value. For example, to use a soft green:
+
+```css
+.btn-restart{
+    background-color: #4ade80;
+}
+```
+
+### Cell border color
+
+Cell borders are defined on the `.celda` rule:
+
+```css
+.celda{
+    height: 80px;
+    width: 80px;
+    border: 2px solid black;
+    border-radius: 5px;
+    font-size: 60px;
+    text-align: center;
+}
+```
+
+Change `black` to any color. To use a dark gray instead:
+
+```css
+.celda{
+    border: 2px solid #374151;
+}
+```
+
+## Changing cell size
+
+The board uses a CSS Grid with fixed column widths, and each cell has matching fixed dimensions. Both values must stay in sync or the grid will misalign.
+
+The relevant rules from `styles.css`:
+
+```css
+.celda-container{
+    display: grid;
+    grid-template-columns: 80px 80px 80px;
+    width: 240px;
+    margin: 0 auto;
+    margin-top: 60px;
+    cursor: pointer;
+}
+.celda{
+    height: 80px;
+    width: 80px;
+    border: 2px solid black;
+    border-radius: 5px;
+    font-size: 60px;
+    text-align: center;
+}
+```
+
+To resize cells to 100×100px, update all three matching values together:
+
+```css
+.celda-container{
+    grid-template-columns: 100px 100px 100px;
+    width: 300px; /* 100px × 3 */
+}
+.celda{
+    height: 100px;
+    width: 100px;
+}
+```
+
+<Tip>
+Keep `.celda-container` width equal to the cell width multiplied by 3 to prevent overflow or gaps in the grid.
+</Tip>
+
+## Changing the font size
+
+The `X` and `O` markers are rendered as text inside each `.celda` div. Their size is controlled by `font-size` on `.celda`:
+
+```css
+.celda{
+    font-size: 60px;
+}
+```
+
+Increase or decrease this value to scale the markers. If you resize the cells, adjust the font size proportionally so markers still fit within their cell boundaries. For 100×100px cells, a font size of `70px` to `80px` works well.
+
+## Adding a score tracker
+
+Tracking wins across multiple rounds requires three changes: score variables in `game.js`, logic to increment them on a win, and a display element in `index.html`.
+
+<Info>
+This modification requires editing `game.js`. The score variables and increment logic belong alongside the existing state variables and win-check calls.
+</Info>
+
+**1. Add score variables** at the top of `game.js`, next to the existing state variables:
+
+```js
+let scoreX = 0;
+let scoreO = 0;
+```
+
+**2. Add a helper** to increment and display the score when a win occurs. Call this function in `game.js` right after each win check returns `true`:
+
+```js
+function registrarVictoria(){
+    if(jugadorActual === 'X'){
+        scoreX++;
+        document.getElementById('score-x').textContent = scoreX;
+    } else {
+        scoreO++;
+        document.getElementById('score-o').textContent = scoreO;
+    }
+}
+```
+
+Then call `registrarVictoria()` inside `game()`, after each win check that returns early. For example, after the column check:
+
+```js
+if(revisarColumna()){
+    registrarVictoria();
+    console.log(`Ha ganado el jugador ${jugadorActual}`);
+    return;
+}
+```
+
+Repeat the same pattern for `revisarFila()`, `revisarDiagonalDerecha()`, and `revisarDiagonalIzquierda()`.
+
+**3. Add a score display** to `index.html`:
+
+```html
+<h2 class="marcador">X: <span id="score-x">0</span> — O: <span id="score-o">0</span></h2>
+```
+
+**4. Update the display** in the score increment block in `game.js`:
+
+```js
+document.getElementById('score-x').textContent = scoreX;
+document.getElementById('score-o').textContent = scoreO;
+```
+
+The score variables (`scoreX`, `scoreO`) persist across restarts because the existing restart handler only resets `tablero`, `juegoActivo`, and `jugadorActual`. If you want to reset scores too, add `scoreX = 0; scoreO = 0;` to the `btnRestart` click handler.
+
+<Warning>
+Changing the board from a 3×3 grid to a larger size (such as 4×4 or 5×5) requires more than CSS changes. The win detection functions `revisarColumna`, `revisarFila`, `revisarDiagonalDerecha`, and `revisarDiagonalIzquierda` in `game.js` all hardcode indices `0`, `1`, and `2`. They would need to be rewritten to handle the new board dimensions and winning conditions.
+</Warning>

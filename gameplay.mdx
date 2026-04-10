@@ -1,0 +1,44 @@
+---
+title: "How to play Tic Tac Toe: turns, wins, and restarts"
+description: "Step-by-step guide to the Tic Tac Toe gameplay loop — placing markers, alternating turns, winning, drawing, and restarting the game."
+---
+
+Tic Tac Toe is a two-player turn-based game where you and an opponent take turns placing markers on a shared 3×3 board. Each player uses a different symbol — X or O — and the goal is to be the first to get three of your markers in a line. The game tracks whose turn it is, detects wins and draws automatically, and lets you start fresh at any time.
+
+## Core gameplay loop
+
+<Steps>
+  <Step title="Game starts">
+    Player X always takes the first turn. The current player's symbol is shown at the top of the board in the "Jugador Actual" indicator so both players always know whose move it is.
+  </Step>
+  <Step title="Place your marker">
+    Click any empty cell on the 3×3 board to place your marker (X or O). The cell immediately updates to show your symbol, and the game checks for a winner.
+  </Step>
+  <Step title="Players alternate">
+    After each valid move, the turn switches automatically to the other player. The "Jugador Actual" indicator updates to reflect whose turn it is next.
+  </Step>
+  <Step title="Game ends">
+    The game ends when one player gets three markers in a row — horizontally, vertically, or diagonally — or when all nine cells are filled with no winner (a draw). No further moves can be made once the game ends.
+  </Step>
+  <Step title="Restart">
+    Click the **Reiniciar juego** button to reset the board, clear all markers, and start a new game. Player X always takes the first turn after a restart.
+  </Step>
+</Steps>
+
+## Game outcomes
+
+<AccordionGroup>
+  <Accordion title="Player wins">
+    A player wins by placing three markers in a row — across any horizontal row, down any vertical column, or along either diagonal. As soon as a winning combination is detected after a move, the game stops and no further moves can be made. You must click **Reiniciar juego** to play again.
+  </Accordion>
+  <Accordion title="Draw">
+    A draw occurs when all nine cells are filled and neither player has achieved three in a row. The game ends automatically and no more moves are accepted. Click **Reiniciar juego** to start a new game.
+  </Accordion>
+  <Accordion title="Occupied cell">
+    If you click a cell that already contains a marker, an alert appears: "Esa casilla ya esta ocupada por favor selecciona otra." The turn does not change — simply click a different empty cell to continue.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Try to claim the center cell on your first or second move. The center participates in four winning combinations (two diagonals, one row, one column), giving you the most paths to victory and forcing your opponent to defend more positions at once.
+</Tip>

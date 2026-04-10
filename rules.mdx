@@ -1,0 +1,63 @@
+---
+title: "Tic Tac Toe: rules, valid moves, and win conditions"
+description: "Complete rules reference — board layout, valid and invalid moves, all eight winning line combinations, and how a draw is declared."
+---
+
+The objective of Tic Tac Toe is to place three of your markers in a line before your opponent does. Every decision you make — which cell to claim, which threats to block — is aimed at completing a row, column, or diagonal before your opponent can do the same.
+
+## The board
+
+The game is played on a 3×3 grid of nine equal cells. Two players participate: one plays as **X** and the other as **O**. Player X always moves first. Each cell can hold exactly one marker, and once placed a marker cannot be moved or removed.
+
+## Valid moves
+
+<CardGroup cols={1}>
+  <Card title="Place on an empty cell" icon="square">
+    You may only place your marker on a cell that does not already contain a symbol. Every turn you must choose one empty cell.
+  </Card>
+  <Card title="No moves after the game ends" icon="ban">
+    Once a winner is found or a draw is declared, the board is locked and no further moves are accepted. Clicking any cell while the game is over shows an alert: "El juego ha terminado reinicialo para poder jugar". Click **Reiniciar juego** to unlock the board.
+  </Card>
+  <Card title="Occupied cells are rejected" icon="circle-exclamation">
+    Clicking a cell that already holds a marker triggers an alert: "Esa casilla ya esta ocupada por favor selecciona otra." The current player's turn is preserved — pick a different empty cell.
+  </Card>
+</CardGroup>
+
+## Win conditions
+
+A player wins the moment three of their markers occupy any of the following eight combinations:
+
+<AccordionGroup>
+  <Accordion title="Row 1 — top horizontal" icon="grip-lines">
+    All three cells in the top row contain the same marker: top-left, top-center, and top-right.
+  </Accordion>
+  <Accordion title="Row 2 — middle horizontal" icon="grip-lines">
+    All three cells in the middle row contain the same marker: middle-left, middle-center, and middle-right.
+  </Accordion>
+  <Accordion title="Row 3 — bottom horizontal" icon="grip-lines">
+    All three cells in the bottom row contain the same marker: bottom-left, bottom-center, and bottom-right.
+  </Accordion>
+  <Accordion title="Column 1 — left vertical" icon="grip-lines-vertical">
+    All three cells in the left column contain the same marker: top-left, middle-left, and bottom-left.
+  </Accordion>
+  <Accordion title="Column 2 — center vertical" icon="grip-lines-vertical">
+    All three cells in the center column contain the same marker: top-center, middle-center, and bottom-center.
+  </Accordion>
+  <Accordion title="Column 3 — right vertical" icon="grip-lines-vertical">
+    All three cells in the right column contain the same marker: top-right, middle-right, and bottom-right.
+  </Accordion>
+  <Accordion title="Diagonal — top-left to bottom-right" icon="arrow-down-right">
+    The three cells running from the top-left corner through the center to the bottom-right corner all contain the same marker.
+  </Accordion>
+  <Accordion title="Diagonal — top-right to bottom-left" icon="arrow-down-left">
+    The three cells running from the top-right corner through the center to the bottom-left corner all contain the same marker.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  All eight winning combinations are checked automatically after every move. The game calls `revisarFila()` for rows, `revisarColumna()` for columns, `revisarDiagonalIzquierda()` for the top-left to bottom-right diagonal, and `revisarDiagonalDerecha()` for the top-right to bottom-left diagonal. You do not need to declare a win — it is detected and the board is locked immediately.
+</Note>
+
+## Draw rule
+
+If all nine cells are filled and none of the eight winning combinations has been completed, the game is declared a draw. The `empate()` function confirms this by scanning every cell for an empty value — if none are found and no winner was detected, `juegoActivo` is set to `false`. No further moves are accepted. Click **Reiniciar juego** to start a new game.

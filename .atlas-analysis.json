@@ -1,0 +1,43 @@
+{
+  "projectType": "general",
+  "projectName": "Tic Tac Toe Game",
+  "projectDescription": "A classic two-player Tic Tac Toe game built with vanilla JavaScript, HTML, and CSS that runs entirely in the browser.",
+  "theme": "almond",
+  "primaryColor": "#00BCD4",
+  "lightColor": "#E0F7FA",
+  "darkColor": "#006064",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": ["introduction", "quickstart"]
+      },
+      {
+        "group": "How to Play",
+        "pages": ["gameplay", "rules"]
+      },
+      {
+        "group": "Technical Reference",
+        "pages": ["project-structure", "game-logic", "customization"]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Two-player local gameplay with X and O markers",
+    "Automatic win detection for rows, columns, and diagonals",
+    "Draw detection when all cells are filled with no winner",
+    "Game state management preventing moves after game ends",
+    "Real-time current player display",
+    "One-click game reset functionality",
+    "Input validation preventing moves on occupied cells",
+    "Zero dependencies — runs in any modern browser"
+  ],
+  "publicApiSurface": [
+    "game(fila, columna) — processes a player move at the given row and column",
+    "revisarColumna() — checks all columns for a vertical win",
+    "revisarFila() — checks all rows for a horizontal win",
+    "revisarDiagonalDerecha() — checks the top-right to bottom-left diagonal",
+    "revisarDiagonalIzquierda() — checks the top-left to bottom-right diagonal",
+    "empate() — detects a draw when no cells remain empty"
+  ]
+}

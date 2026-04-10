@@ -1,0 +1,47 @@
+---
+title: "Tic Tac Toe Game: features, technologies, and license"
+description: "A browser-based, two-player Tic Tac Toe game built with vanilla HTML, CSS, and JavaScript — no dependencies, no build step required."
+---
+
+Tic Tac Toe Game is a classic two-player browser game built entirely with vanilla HTML5, CSS3, and JavaScript (ES6+). This page covers what the project is, its key features, the technologies it uses, and licensing information.
+
+## What it is
+
+Tic Tac Toe Game is a lightweight, self-contained web application that lets two players compete on a standard 3×3 grid directly in the browser. There is no build step, no package manager, and no server required — open `index.html` and play. The game handles turn management, win detection across all rows, columns, and diagonals, draw detection, and input validation, all within a single JavaScript file.
+
+## Features
+
+<CardGroup cols={2}>
+  <Card title="Two-player gameplay" icon="users">
+    Players take turns as X and O. The current player's symbol is shown on screen and updates automatically after each valid move.
+  </Card>
+  <Card title="Win detection" icon="trophy">
+    The game checks all rows, columns, and both diagonals after every move, instantly recognizing when a player has won.
+  </Card>
+  <Card title="Draw detection" icon="handshake">
+    When all nine cells are filled with no winner, the game correctly identifies the result as a draw and stops accepting moves.
+  </Card>
+  <Card title="Game reset" icon="rotate-ccw">
+    A restart button clears the board, resets state, and returns the turn to player X so a new game can begin immediately.
+  </Card>
+  <Card title="Input validation" icon="shield-check">
+    Clicking an already-occupied cell triggers an alert and ignores the move. Clicks after the game ends are also blocked until the game is reset.
+  </Card>
+  <Card title="Zero dependencies" icon="package-x">
+    The project runs entirely on native browser APIs. No frameworks, libraries, or package managers are needed.
+  </Card>
+</CardGroup>
+
+## Technologies used
+
+The project uses only core web platform technologies:
+
+- **HTML5** — page structure, the 3×3 grid of cell elements, and the restart button
+- **CSS3** — layout via CSS Grid, typography, spacing, and the centered game board
+- **JavaScript (ES6+)** — all game logic, DOM manipulation, event handling, and state management
+
+## License
+
+Tic Tac Toe Game is released under the [MIT License](https://opensource.org/licenses/MIT).
+
+Copyright &copy; 2026 Samuel Esteban Sarmiento Galvez. All rights reserved.

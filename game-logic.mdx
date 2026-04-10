@@ -1,0 +1,212 @@
+---
+title: "Tic Tac Toe game logic: functions and state variables"
+description: "Reference for every function in game.js — state variables, the main game() function, win and draw detection, and DOM event listeners."
+---
+
+All game logic lives in `game.js`. The file runs directly in the browser — there are no modules, bundlers, or frameworks involved. This page documents every state variable, function, and event listener in the file.
+
+## State variables
+
+Four variables track the game state across turns.
+
+```js
+const jugadorActualUi = document.querySelector('.jugador-actual');
+
+let tablero = [
+    [ "" , "" , "" ] , 
+    [ "" , "" , "" ] , 
+    [ "" , "" , "" ]
+];
+
+let juegoActivo = true ; 
+let jugadorActual = 'X' ; 
+```
+
+| Variable | Type | Description |
+|---|---|---|
+| `tablero` | 3×3 nested array | Stores the marker at each board position. Empty cells hold `""`. |
+| `juegoActivo` | `boolean` | Set to `false` when the game ends. Blocks further moves. |
+| `jugadorActual` | `string` | Either `'X'` or `'O'`. Starts as `'X'`. |
+| `jugadorActualUi` | DOM element | Reference to the `.jugador-actual` span. Updated after each turn. |
+
+## Core function: game(fila, columna)
+
+The `game` function is called on every cell click. It receives the row (`fila`) and column (`columna`) index of the clicked cell (both 0-indexed).
+
+```js
+function game( fila , columna ){
+    if(!juegoActivo){
+        console.log('El juego ha terminado '); 
+        alert(`Reinicia el juego para poder jugar`);
+        return
+    }
+    if(tablero[fila][columna] !== ''){
+        console.log('Esta casilla ya esta ocupada ');
+        return 
+    }
+    tablero[fila][columna] = jugadorActual;
+    if(revisarColumna()){ console.log(`Ha ganado el jugador ${jugadorActual}`); return }
+    if(revisarFila()){ console.log(`Ha ganado el jugador ${jugadorActual}`); return }
+    if(revisarDiagonalDerecha()){ console.log(`Ha ganado el jugador ${jugadorActual}`); return }
+    if(revisarDiagonalIzquierda()){ console.log(`Ha ganado el jugador ${jugadorActual}`); return }
+    if(empate()){ console.log(`Ha habido un empate`); return }
+    jugadorActual = jugadorActual === 'X' ? 'O' : 'X' ; 
+    jugadorActualUi.textContent = jugadorActual ; 
+}
+```
+
+The function runs through these steps in order:
+
+<Steps>
+  <Step title="Guard: game inactive">
+    If `juegoActivo` is `false`, the game has already ended. The function alerts the user and returns early — no move is recorded.
+  </Step>
+  <Step title="Guard: cell occupied">
+    If `tablero[fila][columna]` is not an empty string, the cell already has a marker. The function logs a message and returns without doing anything.
+  </Step>
+  <Step title="Record the move">
+    The current player's marker is written into the board array: `tablero[fila][columna] = jugadorActual`.
+  </Step>
+  <Step title="Check for a win or draw">
+    The four win-detection functions are called in sequence: column check, row check, right diagonal, left diagonal. Then `empate()` checks for a draw. If any returns `true`, the function logs the result and returns early — the turn is not passed.
+  </Step>
+  <Step title="Switch turns">
+    If no game-ending condition was met, `jugadorActual` toggles between `'X'` and `'O'` using a ternary expression, and the UI span is updated.
+  </Step>
+</Steps>
+
+## Win detection functions
+
+Each function reads from the `tablero` array and returns `true` if a winning condition is found. On a match, it sets `juegoActivo = false` before returning.
+
+### revisarColumna()
+
+Checks each of the three columns. For column `i`, it checks whether `tablero[0][i]`, `tablero[1][i]`, and `tablero[2][i]` are all equal and non-empty.
+
+```js
+function revisarColumna(){
+    for(let i = 0 ; i < 3 ; i++ ){
+        if( tablero[0][i] !== '' && 
+            tablero[0][i] === tablero[1][i] && 
+            tablero[1][i] === tablero[2][i] 
+        ){ juegoActivo = false; return true }
+    }
+    return false 
+}
+```
+
+### revisarFila()
+
+Checks each of the three rows. For row `i`, it checks whether `tablero[i][0]`, `tablero[i][1]`, and `tablero[i][2]` are all equal and non-empty.
+
+```js
+function revisarFila(){
+    for(let i = 0 ; i < 3 ; i++ ){
+        if( tablero[i][0] !== '' && 
+            tablero[i][0] === tablero[i][1] && 
+            tablero[i][1] === tablero[i][2] 
+        ){ juegoActivo = false; return true }
+    }
+    return false 
+}
+```
+
+### revisarDiagonalDerecha()
+
+Checks the right-to-left diagonal: top-right (`tablero[0][2]`), center (`tablero[1][1]`), bottom-left (`tablero[2][0]`).
+
+```js
+function revisarDiagonalDerecha(){
+    if( tablero[0][2] !== '' &&
+        tablero[0][2] === tablero[1][1] && 
+        tablero[1][1] === tablero[2][0]
+    ){ juegoActivo = false; return true }
+    else{ return false }
+}
+```
+
+### revisarDiagonalIzquierda()
+
+Checks the left-to-right diagonal: top-left (`tablero[0][0]`), center (`tablero[1][1]`), bottom-right (`tablero[2][2]`).
+
+```js
+function revisarDiagonalIzquierda(){
+    if( tablero[0][0] !== '' &&
+        tablero[0][0] === tablero[1][1] && 
+        tablero[1][1] === tablero[2][2]
+    ){ juegoActivo = false; return true }
+    else{ return false }
+}
+```
+
+## Draw detection: empate()
+
+`empate()` is called after all four win checks. It iterates over every cell in `tablero` using nested `for...of` loops.
+
+```js
+function empate(){
+    for(let fila of tablero){
+        for(let celda of fila){
+            if(celda === ''){ return false }
+        }
+    }
+    juegoActivo = false
+    return true
+}
+```
+
+If any cell is still an empty string, the board is not full and the function returns `false` immediately. If the nested loops complete without finding an empty cell, the board is full with no winner: `juegoActivo` is set to `false` and the function returns `true`.
+
+## Event listeners
+
+### Cell click handler
+
+Each `.celda` element gets a `click` listener. The cell's flat index (0–8) is used to derive the row and column position.
+
+```js
+const celdas = document.querySelectorAll('.celda')
+celdas.forEach((celdaUi , index )=> {
+    celdaUi.addEventListener('click' , () => {
+        if(juegoActivo){
+            if(celdaUi.textContent === ''){
+                const fila = Math.floor(index / 3)
+                const columna = index % 3
+                celdaUi.textContent = jugadorActual
+                game(fila , columna)
+            }else{
+                alert('Esa casilla ya esta ocupada por favor selecciona otra');
+            }
+        }else{
+            alert('El juego ha terminado reinicialo para poder jugar ');
+        }
+    })
+})
+```
+
+- `fila = Math.floor(index / 3)` — integer division gives the row (0, 1, or 2)
+- `columna = index % 3` — remainder gives the column (0, 1, or 2)
+- The cell's `textContent` is updated immediately in the UI before `game()` is called to update the internal `tablero` array
+
+### Restart button
+
+The `.btn-restart` button resets every piece of state and clears the board UI.
+
+```js
+const btnRestart = document.querySelector('.btn-restart');
+btnRestart.addEventListener('click' , () => {
+    tablero = [
+        [ "" , "" , "" ] , 
+        [ "" , "" , "" ] , 
+        [ "" , "" , "" ]
+    ];
+    juegoActivo = true ; 
+    jugadorActual = 'X' ; 
+    jugadorActualUi.textContent = jugadorActual
+    celdas.forEach(celda => {
+        celda.textContent = '';
+    })
+    console.clear()
+})
+```
+
+On click it: reinitializes `tablero` to nine empty strings, sets `juegoActivo` back to `true`, resets `jugadorActual` to `'X'`, clears each cell's `textContent`, and calls `console.clear()` to remove any previous log output.
